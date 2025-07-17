@@ -3,16 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <title>Daughters of Divine Love Juniorate Admission Form</title>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCcZVD9_t9YzS4lUyI62d8-ipQeexZCdS0",
+      authDomain: "ddl-admission.firebaseapp.com",
+      databaseURL: "https://ddl-admission-default-rtdb.firebaseio.com",
+      projectId: "ddl-admission",
+      storageBucket: "ddl-admission.firebasestorage.app",
+      messagingSenderId: "91771851793",
+      appId: "1:91771851793:web:6a810b63eed86a115c4db0",
+      measurementId: "G-T8GBFCBQVZ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    emailjs.init("Letmein123@");
+
+    const form = document.getElementById('admissionForm');
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const timestamp = new Date().toLocaleString();
+      const ref = 'REF-' + Date.now().toString(36).toUpperCase();
+
+      const data = {
+        name: form.name.value,
+        age: form.age.value,
+        previousClass: form.previousClass.value,
+        class: form.class.value,
+        phone: form.phone.value,
+        parent: form.parent.value,
+        address: form.address.value,
+        health: form.health.value,
+        paymentStatus: form.paymentStatus.value,
+        timestamp,
+        reference: ref
+      };
+
+      try {
+        await addDoc(collection(db, "admission_forms"), data);
+        emailjs.send("service_uejudty", "template_XXX", data);
+        generatePDF(data);
+        document.getElementById("formSection").style.display = "none";
+        document.getElementById("thankYouSection").style.display = "block";
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+    });
+
+    function generatePDF(data) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text("Daughters of Divine Love Juniorate Admission Form", 20, 20);
+      doc.setFontSize(12);
+      doc.text(`Reference: ${data.reference}`, 20, 30);
+      doc.text(`Name: ${data.name}`, 20, 40);
+      doc.text(`Age: ${data.age}`, 20, 48);
+      doc.text(`Previous Class: ${data.previousClass}`, 20, 56);
+      doc.text(`Class Applied: ${data.class}`, 20, 64);
+      doc.text(`Phone: ${data.phone}`, 20, 72);
+      doc.text(`Parent: ${data.parent}`, 20, 80);
+      doc.text(`Address: ${data.address}`, 20, 88);
+      doc.text(`Health Challenge: ${data.health}`, 20, 96);
+      doc.text(`Paid Admission?: ${data.paymentStatus}`, 20, 104);
+      doc.text(`Submitted: ${data.timestamp}`, 20, 112);
+      doc.save(`Admission_${data.reference}.pdf`);
+    }
+  </script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif; color: #f7f4f4;
-      background-image: url(SCHOOL.jpg);
+      background-image: url('SCHOOL.jpg');
       background-color: #a982db;
-
       padding: 20px;
     }
     .container {
@@ -22,7 +89,6 @@
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    
     }
     h2 {
       text-align: center;
@@ -50,25 +116,25 @@
       cursor: pointer;
       width: 100%;
     }
-    img.logo {
+    .logo {
       display: block;
       margin: auto;
       max-width: 100px;
-
     }
-    img{
-      margin: auto;
-      max-width: 100px;
+    #thankYouSection {
+      display: none;
+      text-align: center;
+      padding: 40px;
     }
-
+    #thankYouSection h1 {
+      color: green;
+    }
   </style>
 </head>
 <body>
-
-<div class="container">
+<div class="container" id="formSection">
   <img class="logo" src="SCHOOL.jpg" alt="School Logo">
-
-  <h2>Daughters of Divine Love Juniorate Abakpa, Enugu.<br> 2025/2026 Academic session Admission Form</h2>
+  <h2>Daughters of Divine Love Juniorate Abakpa, Enugu.<br>2025/2026 Academic Session Admission Form</h2>
   <form id="admissionForm">
     <label>Full Name</label>
     <input type="text" id="name" required>
@@ -105,69 +171,9 @@
   </form>
 </div>
 
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyCcZVD9_t9YzS4lUyI62d8-ipQeexZCdS0",
-    authDomain: "ddl-admission.firebaseapp.com",
-    databaseURL: "https://ddl-admission-default-rtdb.firebaseio.com",
-    projectId: "ddl-admission",
-    storageBucket: "ddl-admission.firebasestorage.app",
-    messagingSenderId: "91771851793",
-    appId: "1:91771851793:web:6a810b63eed86a115c4db0",
-    measurementId: "G-T8GBFCBQVZ"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  emailjs.init("Letmein123@");
-
-  const form = document.getElementById('admissionForm');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const timestamp = new Date().toLocaleString();
-    const ref = 'REF-' + Date.now().toString(36).toUpperCase();
-    const data = {
-      name: form.name.value,
-      age: form.age.value,
-      previousClass: form.previousClass.value,
-      class: form.class.value,
-      phone: form.phone.value,
-      parent: form.parent.value,
-      address: form.address.value,
-      health: form.health.value,
-      paymentStatus: form.paymentStatus.value,
-      timestamp,
-      reference: ref
-    };
-    try {
-      await db.collection("admission_forms").add(data);
-      emailjs.send("service_uejudty", "template_XXX", data);
-      generatePDF(data);
-      setTimeout(() => window.location.href = "thankyou.html", 3000);
-    } catch (err) {
-      alert("Error: " + err);
-    }
-  });
-
-  function generatePDF(data) {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    doc.setFontSize(16);
-    doc.text("Daughters of Divine Love Juniorate Admission Form", 20, 20);
-    doc.setFontSize(12);
-    doc.text(`Reference: ${data.reference}`, 20, 30);
-    doc.text(`Name: ${data.name}`, 20, 40);
-    doc.text(`Age: ${data.age}`, 20, 48);
-    doc.text(`Previous Class: ${data.previousClass}`, 20, 56);
-    doc.text(`Class Applied: ${data.class}`, 20, 64);
-    doc.text(`Phone: ${data.phone}`, 20, 72);
-    doc.text(`Parent: ${data.parent}`, 20, 80);
-    doc.text(`Address: ${data.address}`, 20, 88);
-    doc.text(`Health Challenge: ${data.health}`, 20, 96);
-    doc.text(`Paid Admission?: ${data.paymentStatus}`, 20, 104);
-    doc.text(`Submitted: ${data.timestamp}`, 20, 112);
-    doc.save(`Admission_${data.reference}.pdf`);
-  }
-</script>
-
+<div class="container" id="thankYouSection">
+  <h1>Thank you for registering!</h1>
+  <p>Your admission form has been received. Please check your email or download the PDF copy.</p>
+</div>
 </body>
 </html>
