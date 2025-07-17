@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daughters of Divine Love Exam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f6fc;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background-color: #3f51b5;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 5px 0;
+      font-size: 22px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .instructions {
+      background: #e8f0fe;
+      padding: 15px;
+      border-left: 5px solid #3f51b5;
+      margin-bottom: 20px;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .question h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .options label {
+      display: block;
+      margin: 5px 0;
+      cursor: pointer;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #3f51b5;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:disabled {
+      background: gray;
+      cursor: not-allowed;
+    }
+    .result {
+      background: #e0f7fa;
+      padding: 15px;
+      margin-top: 20px;
+      border-left: 5px solid #00796b;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>DAUGHTERS OF DIVINE LOVE JUNIORATE ABAKPA ENUGU</h1>
+  <p>ENTRANCE EXAMINATION</p>
+</header>
+
+<div class="container">
+  <div class="instructions">
+    <h3>INSTRUCTIONS:</h3>
+    <ul>
+      <li>Read each question carefully before answering.</li>
+      <li>Select the most appropriate answer from the options.</li>
+      <li>Once submitted, you cannot retake or edit your answers.</li>
+      <li>This is a timed test. Ensure you're ready before starting.</li>
+    </ul>
+  </div>
+
+  <form id="examForm">
+    <div class="question">
+      <h3>1. What is the capital of Enugu State?</h3>
+      <div class="options">
+        <label><input type="radio" name="q1" value="A"> Nsukka</label>
+        <label><input type="radio" name="q1" value="B"> Enugu</label>
+        <label><input type="radio" name="q1" value="C"> Abakpa</label>
+        <label><input type="radio" name="q1" value="D"> Agbani</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <h3>2. Which is a primary color?</h3>
+      <div class="options">
+        <label><input type="radio" name="q2" value="A"> Green</label>
+        <label><input type="radio" name="q2" value="B"> Orange</label>
+        <label><input type="radio" name="q2" value="C"> Red</label>
+        <label><input type="radio" name="q2" value="D"> Purple</label>
+      </div>
+    </div>
+
+    <!-- Add more questions as needed -->
+
+    <button type="submit" id="submitBtn">Submit Answers</button>
+  </form>
+
+  <div class="result" id="resultBox" style="display:none;"></div>
+</div>
+
+<script>
+  const correctAnswers = {
+    q1: "B",
+    q2: "C"
+  };
+
+  document.getElementById('examForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const resultBox = document.getElementById('resultBox');
+    const form = new FormData(this);
+    let score = 0;
+    let total = Object.keys(correctAnswers).length;
+
+    for (let q in correctAnswers) {
+      if (form.get(q) === correctAnswers[q]) score++;
+    }
+
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `<h3>Result:</h3>
+      <p>You scored <strong>${score} out of ${total}</strong>.</p>
+      <p>Thank you for taking the exam. Your result has been recorded.</p>`;
+
+    // Disable further input
+    document.querySelectorAll('input').forEach(el => el.disabled = true);
+    document.getElementById('submitBtn').disabled = true;
+  });
+</script>
+
+</body>
+</html>
+
