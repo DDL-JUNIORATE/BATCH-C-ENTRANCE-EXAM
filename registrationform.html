@@ -1,10 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daughters of Divine Love Juniorate Admission Form</title>
+
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      color: #f7f4f4;
+      background-image: url('SCHOOL.jpg');
+      background-color: #a982db;
+      background-size: cover;
+      background-repeat: no-repeat;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 650px;
+      width: 100%;
+      margin: auto;
+      background: rgba(111, 77, 223, 0.95);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #ffffff;
+      font-size: 1.3rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+      background-color: #bd79dd;
+      color: white;
+      padding: 12px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 20px;
+      max-width: 100px;
+      border-radius: 5px;
+    }
+
+    #thankYouSection {
+      display: none;
+      text-align: center;
+      padding: 40px;
+    }
+
+    #thankYouSection h1 {
+      color: #00ff66;
+      font-size: 1.5rem;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 20px;
+      }
+      h2 {
+        font-size: 1.1rem;
+      }
+      input, select {
+        font-size: 0.95rem;
+      }
+      button {
+        font-size: 1rem;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="formSection">
+    <img class="logo" src="SCHOOL.jpg" alt="School Logo" />
+    <h2>Daughters of Divine Love Juniorate Abakpa, Enugu.<br>2025/2026 Academic Session Admission Form</h2>
+    <form id="admissionForm">
+      <label>Full Name</label>
+      <input type="text" id="name" required />
+
+      <label>Age</label>
+      <input type="number" id="age" required />
+
+      <label>Previous Class</label>
+      <input type="text" id="previousClass" required />
+
+      <label>Class Seeking Admission Into</label>
+      <input type="text" id="class" required />
+
+      <label>Phone Number</label>
+      <input type="tel" id="phone" required />
+
+      <label>Parent/Guardian Name</label>
+      <input type="text" id="parent" required />
+
+      <label>Home Address</label>
+      <input type="text" id="address" required />
+
+      <label>Any Health Challenge?</label>
+      <input type="text" id="health" placeholder="If none, type 'None'" required />
+
+      <label>Have You Paid for the Admission?</label>
+      <select id="paymentStatus" required>
+        <option value="">-- Select --</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+
+      <button type="submit">Submit & Download PDF</button>
+    </form>
+  </div>
+
+  <div class="container" id="thankYouSection">
+    <h1>Thank you for registering!</h1>
+    <p>Your admission form has been received. Please check your email or download the PDF copy.</p>
+  </div>
+
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
     import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
@@ -75,105 +218,5 @@
       doc.save(`Admission_${data.reference}.pdf`);
     }
   </script>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif; color: #f7f4f4;
-      background-image: url('SCHOOL.jpg');
-      background-color: #a982db;
-      padding: 20px;
-    }
-    .container {
-      max-width: 650px;
-      margin: auto;
-      background: rgb(111, 77, 223);
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      color: #fbfbfc;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      margin-top: 20px;
-      background-color: #bd79dd;
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      width: 100%;
-    }
-    .logo {
-      display: block;
-      margin: auto;
-      max-width: 100px;
-    }
-    #thankYouSection {
-      display: none;
-      text-align: center;
-      padding: 40px;
-    }
-    #thankYouSection h1 {
-      color: green;
-    }
-  </style>
-</head>
-<body>
-<div class="container" id="formSection">
-  <img class="logo" src="SCHOOL.jpg" alt="School Logo">
-  <h2>Daughters of Divine Love Juniorate Abakpa, Enugu.<br>2025/2026 Academic Session Admission Form</h2>
-  <form id="admissionForm">
-    <label>Full Name</label>
-    <input type="text" id="name" required>
-
-    <label>Age</label>
-    <input type="number" id="age" required>
-
-    <label>Previous Class</label>
-    <input type="text" id="previousClass" required>
-
-    <label>Class Seeking Admission Into</label>
-    <input type="text" id="class" required>
-
-    <label>Phone Number</label>
-    <input type="tel" id="phone" required>
-
-    <label>Parent/Guardian Name</label>
-    <input type="text" id="parent" required>
-
-    <label>Home Address</label>
-    <input type="text" id="address" required>
-
-    <label>Any Health Challenge?</label>
-    <input type="text" id="health" placeholder="If none, type 'None'" required>
-
-    <label>Have You Paid for the Admission?</label>
-    <select id="paymentStatus" required>
-      <option value="">-- Select --</option>
-      <option value="Yes">Yes</option>
-      <option value="No">No</option>
-    </select>
-
-    <button type="submit">Submit & Download PDF</button>
-  </form>
-</div>
-
-<div class="container" id="thankYouSection">
-  <h1>Thank you for registering!</h1>
-  <p>Your admission form has been received. Please check your email or download the PDF copy.</p>
-</div>
 </body>
 </html>
